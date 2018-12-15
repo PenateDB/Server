@@ -1,0 +1,25 @@
+{
+  "name": "penate/client",
+  "description": "Client for key-value storage Penate",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexandr Chernyaev",
+      "email": "bliz48rus@gmail.com",
+      "homepage": "https://tabuna.github.io",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Penate\\Client\\": "src/"
+    }
+  }
+}

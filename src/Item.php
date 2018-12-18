@@ -33,14 +33,15 @@ class Item
     /**
      * Item constructor.
      *
-     * @param $value
+     * @param int $createdAt
+     * @param     $value
      * @param int $life
      */
-    public function __construct($value, int $life = 0)
+    public function __construct(int $createdAt, $value, int $life = 0)
     {
+        $this->createdAt = $createdAt;
         $this->value     = $value;
         $this->life      = $life;
-        $this->createdAt = time();
     }
 
     /**
@@ -79,7 +80,7 @@ class Item
     /**
      * @return $this
      */
-    public function increment()
+    public function increment(): self
     {
         $this->value++;
 
@@ -89,7 +90,7 @@ class Item
     /**
      * @return $this
      */
-    public function decrement()
+    public function decrement(): self
     {
         $this->value--;
 

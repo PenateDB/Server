@@ -16,17 +16,21 @@ use React\Socket\Server as SocketServer;
 $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
 
-$loop    = Factory::create();
+$loop = Factory::create();
+
+
 $storage = new Storage();
+$controller = new Controller($storage);
 
 $loop->addPeriodicTimer(0.8, function () use ($storage) {
+    $storage->updateTime();
     $storage->removeExpired();
 });
 
-$server = new HttpServer(function (ServerRequestInterface $serverRequest) use ($storage) {
 
-    $controller = new Controller($storage);
-    $request    = new Request($serverRequest);
+$server = new HttpServer(function (ServerRequestInterface $serverRequest) use ($controller) {
+
+    $request = new Request($serverRequest);
 
     return $controller->handler($request);
 });

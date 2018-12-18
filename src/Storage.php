@@ -15,13 +15,34 @@ class Storage
     private $storage = [];
 
     /**
+     * @var int
+     */
+    private $currentTime;
+
+    /**
+     * Storage constructor.
+     */
+    public function __construct()
+    {
+        $this->updateTime();
+    }
+
+    /**
+     *
+     */
+    public function updateTime(): void
+    {
+        $this->currentTime = time();
+    }
+
+    /**
      * @param string $key
      * @param null $value
      * @param int $life
      */
-    public function setItem(string $key = null, $value = null, int $life = 0)
+    public function setItem(string $key = null, $value = null, int $life = 0): void
     {
-        $this->storage[$key] = new Item($value, $life * 60);
+        $this->storage[$key] = new Item($this->currentTime, $value, $life * 60);
     }
 
     /**
@@ -29,7 +50,7 @@ class Storage
      *
      * @return array
      */
-    public function getItems(array $keys)
+    public function getItems(array $keys): array
     {
         $result = [];
 
@@ -47,11 +68,9 @@ class Storage
      */
     public function getItem(string $key = null)
     {
-        if (!isset($this->storage[$key])) {
-            return null;
-        }
+        $item = $this->storage[$key] ?? null;
 
-        return $this->storage[$key]->getValue();
+        return ($item !== null) ? $item->getValue() : null;
     }
 
     /**
@@ -59,7 +78,7 @@ class Storage
      *
      * @return Item|null
      */
-    public function increment(string $key = null)
+    public function increment(string $key = null): ?Item
     {
         if (!isset($this->storage[$key])) {
             return null;
@@ -73,7 +92,7 @@ class Storage
      *
      * @return Item|null
      */
-    public function decrement(string $key = null)
+    public function decrement(string $key = null): ?Item
     {
         if (!isset($this->storage[$key])) {
             return null;
@@ -85,12 +104,10 @@ class Storage
     /**
      *
      */
-    public function removeExpired()
+    public function removeExpired(): void
     {
-        $time = time();
-
         foreach ($this->storage as $key => $item) {
-            if ($item->checkExpired($time)) {
+            if ($item->checkExpired($this->currentTime)) {
                 unset($this->storage[$key]);
             }
         }

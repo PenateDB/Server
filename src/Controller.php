@@ -58,7 +58,7 @@ class Controller
             return $auth;
         }
 
-        if (!key_exists($request->command, self::COMMANDS)) {
+        if (!array_key_exists($request->command, self::COMMANDS)) {
             return $this->badRequest();
         }
 
@@ -95,7 +95,7 @@ class Controller
      *
      * @return Response
      */
-    protected function makeResponse(array $content, int $code = 200)
+    protected function makeResponse(array $content, int $code = 200): Response
     {
         return new Response(
             $code,
@@ -120,7 +120,7 @@ class Controller
      *
      * @return Response
      */
-    protected function commandDecrement(Request $request)
+    protected function commandDecrement(Request $request): Response
     {
         $this->storage->decrement($request->key);
 
@@ -132,7 +132,7 @@ class Controller
      *
      * @return Response
      */
-    protected function commandIncrement(Request $request)
+    protected function commandIncrement(Request $request): Response
     {
         $this->storage->increment($request->key);
 
@@ -144,7 +144,7 @@ class Controller
      *
      * @return Response
      */
-    protected function commandSet(Request $request)
+    protected function commandSet(Request $request): Response
     {
         $this->storage->setItem($request->key, $request->value, (int) $request->life);
 
@@ -156,7 +156,7 @@ class Controller
      *
      * @return Response
      */
-    protected function commandGets(Request $request)
+    protected function commandGets(Request $request): Response
     {
         $value = $this->storage->getItems($request->key);
 
@@ -170,7 +170,7 @@ class Controller
      *
      * @return Response
      */
-    protected function commandGet(Request $request)
+    protected function commandGet(Request $request): Response
     {
         $value = $this->storage->getItem($request->key);
 

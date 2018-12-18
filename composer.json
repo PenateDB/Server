@@ -13,6 +13,7 @@
   ],
   "require": {
     "php": "^7.2.0",
+    "ext-json": "*",
     "react/event-loop": "^1.0",
     "react/http": "^0.8.3",
     "vlucas/phpdotenv": "^2.5"

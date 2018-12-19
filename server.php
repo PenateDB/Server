@@ -22,6 +22,15 @@ $loop = Factory::create();
 $storage = new Storage();
 $controller = new Controller($storage);
 
+
+$loop->addPeriodicTimer(5, function () use ($storage) {
+    $limit = (int) getenv('MEMORY_LIMIT');
+
+    if ($storage->memoryLimitExceeded($limit)) {
+        $storage->clearStorage();
+    }
+});
+
 $loop->addPeriodicTimer(0.8, function () use ($storage) {
     $storage->updateTime();
     $storage->removeExpired();

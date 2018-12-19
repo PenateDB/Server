@@ -12,27 +12,27 @@ use Psr\Http\Message\ServerRequestInterface;
 class Request
 {
     /**
-     * @var null
+     * @var string
      */
     public $key;
 
     /**
-     * @var null
+     * @var string
      */
     public $command;
 
     /**
-     * @var null
+     * @var string|null
      */
     public $api_key;
 
     /**
-     * @var null
+     * @var mixed|null
      */
     public $value;
 
     /**
-     * @var
+     * @var int|null
      */
     public $life = 0;
 

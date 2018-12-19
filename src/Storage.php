@@ -37,8 +37,8 @@ class Storage
 
     /**
      * @param string $key
-     * @param null $value
-     * @param int $life
+     * @param null   $value
+     * @param int    $life
      */
     public function setItem(string $key = null, $value = null, int $life = 0): void
     {
@@ -52,13 +52,9 @@ class Storage
      */
     public function getItems(array $keys): array
     {
-        $result = [];
-
-        foreach ($keys as $key) {
-            $result[$key] = $this->getItem($key);
-        }
-
-        return $result;
+        return array_map(function ($key) {
+            return $this->getItem($key);
+        }, $keys);
     }
 
     /**
@@ -112,4 +108,25 @@ class Storage
             }
         }
     }
+
+    /**
+     * @param int $limitMemoryMbyte
+     *
+     * @return bool
+     */
+    public function memoryLimitExceeded(int $limitMemoryMbyte): bool
+    {
+        $currentMemoryUsage = memory_get_usage() / 1028 / 1028;
+
+        return $limitMemoryMbyte < $currentMemoryUsage;
+    }
+
+    /**
+     *
+     */
+    public function clearStorage(): void
+    {
+        $this->storage = [];
+    }
+
 }

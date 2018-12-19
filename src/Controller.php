@@ -74,13 +74,9 @@ class Controller
      */
     protected function checkAuth(Request $request): ?Response
     {
-        if (!filter_var(getenv('AUTH'), FILTER_VALIDATE_BOOLEAN)) {
-            return null;
-        }
-
         $api_key = getenv('API_KEY');
 
-        if ($request->api_key === $api_key) {
+        if (empty($api_key) || $request->api_key === $api_key) {
             return null;
         }
 

@@ -2,11 +2,10 @@
 
 Open source, in-memory key value storage.
 
-
 ## Installation
 
 ```bash
-$ composer require penate/server
+$ composer create-project penate/server
 ```
 
 Start server:
@@ -14,4 +13,6 @@ Start server:
 $ php server.php
 ```
 
-Usage PHP [Client](https://github.com/PenateDB/Client)
+## Usage 
+
+PHP [Client](https://github.com/PenateDB/Client)

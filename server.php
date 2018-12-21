@@ -18,13 +18,11 @@ $dotenv->load();
 
 $loop = Factory::create();
 
-
-$storage = new Storage();
+$storage    = new Storage();
 $controller = new Controller($storage);
 
-
 $loop->addPeriodicTimer(5, function () use ($storage) {
-    $limit = (int) getenv('MEMORY_LIMIT');
+    $limit = (int) env('MEMORY_LIMIT',128);
 
     if ($storage->memoryLimitExceeded($limit)) {
         $storage->clearStorage();
@@ -36,7 +34,6 @@ $loop->addPeriodicTimer(0.8, function () use ($storage) {
     $storage->removeExpired();
 });
 
-
 $server = new HttpServer(function (ServerRequestInterface $serverRequest) use ($controller) {
 
     $request = new Request($serverRequest);
@@ -44,7 +41,7 @@ $server = new HttpServer(function (ServerRequestInterface $serverRequest) use ($
     return $controller->handler($request);
 });
 
-$socket = new SocketServer(getenv('PORT'), $loop);
+$socket = new SocketServer( (int) env('PORT', 8000), $loop);
 $server->listen($socket);
 
 echo "Penate server running\n";

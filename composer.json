@@ -1,6 +1,6 @@
 {
   "name": "penate/server",
-  "description": "Key-value storage in memory",
+  "description": "Open source, in-memory key value storage written in PHP.",
   "type": "project",
   "license": "MIT",
   "authors": [
@@ -16,10 +16,12 @@
     "ext-json": "*",
     "react/event-loop": "^1.0",
     "react/http": "^0.8.3",
-    "vlucas/phpdotenv": "^2.5"
+    "vlucas/phpdotenv": "^2.5",
+    "illuminate/support": "^5.7"
   },
   "require-dev": {
-    "phpunit/phpunit": "~7.0"
+    "phpunit/phpunit": "~7.0",
+    "symfony/var-dumper": "^4.2"
   },
   "autoload": {
     "psr-4": {

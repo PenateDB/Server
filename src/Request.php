@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Request
 {
     /**
-     * @var string
+     * @var string|array
      */
     public $key;
 
@@ -32,6 +32,9 @@ class Request
     public $value;
 
     /**
+     * The lifetime of the value is indicated in minutes;
+     * if the value is zero, then storage is unlimited.
+     *
      * @var int|null
      */
     public $life = 0;
@@ -44,9 +47,7 @@ class Request
     public function __construct(ServerRequestInterface $request)
     {
         foreach ($request->getQueryParams() as $key => $param) {
-            if (property_exists(self::class, $key)) {
-                $this->$key = $param;
-            }
+            $this->$key = property_exists(self::class, $key) ? $param : null;
         }
     }
 }

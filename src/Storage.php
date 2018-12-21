@@ -37,8 +37,8 @@ class Storage
 
     /**
      * @param string $key
-     * @param null   $value
-     * @param int    $life
+     * @param null $value
+     * @param int $life
      */
     public function setItem(string $key = null, $value = null, int $life = 0): void
     {
@@ -64,9 +64,17 @@ class Storage
      */
     public function getItem(string $key = null)
     {
-        $item = $this->storage[$key] ?? null;
+        return $this->index($key)->getValue();
+    }
 
-        return ($item !== null) ? $item->getValue() : null;
+    /**
+     * @param string $key
+     *
+     * @return Item|null
+     */
+    private function index(string $key)
+    {
+        return optional($this->storage[$key] ?? null);
     }
 
     /**
@@ -76,11 +84,7 @@ class Storage
      */
     public function increment(string $key = null): ?Item
     {
-        if (!isset($this->storage[$key])) {
-            return null;
-        }
-
-        return $this->storage[$key]->increment();
+        return $this->index($key)->increment();
     }
 
     /**
@@ -90,15 +94,11 @@ class Storage
      */
     public function decrement(string $key = null): ?Item
     {
-        if (!isset($this->storage[$key])) {
-            return null;
-        }
-
-        return $this->storage[$key]->decrement();
+        return $this->index($key)->decrement();
     }
 
     /**
-     *
+     * Enumerates values in the storage, deleting expired values.
      */
     public function removeExpired(): void
     {
@@ -110,19 +110,19 @@ class Storage
     }
 
     /**
+     * Checks if memory usage limit is exceeded.
+     *
      * @param int $limitMemoryMbyte
      *
      * @return bool
      */
     public function memoryLimitExceeded(int $limitMemoryMbyte): bool
     {
-        $currentMemoryUsage = memory_get_usage() / 1028 / 1028;
-
-        return $limitMemoryMbyte < $currentMemoryUsage;
+        return $limitMemoryMbyte < memory_get_usage() / 1028 / 1028;
     }
 
     /**
-     *
+     * Clear all storage
      */
     public function clearStorage(): void
     {

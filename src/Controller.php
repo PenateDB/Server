@@ -12,6 +12,9 @@ use React\Http\Response;
 class Controller
 {
     /**
+     * List of commands that can be sent as parameters.
+     * Key values will be called as functions.
+     *
      * @var array
      */
     protected const COMMANDS = [
@@ -22,6 +25,8 @@ class Controller
         'decrement' => 'commandDecrement',
     ];
     /**
+     * Valid Values List.
+     *
      * @var array
      */
     protected const PARAMETERS = [
@@ -30,7 +35,10 @@ class Controller
         'value'   => 'required only set|any',
         'life'    => 'integer',
     ];
+
     /**
+     * Main repository on which all operations are performed.
+     *
      * @var Storage
      */
     protected $storage;
@@ -74,7 +82,7 @@ class Controller
      */
     protected function checkAuth(Request $request): ?Response
     {
-        $api_key = getenv('API_KEY');
+        $api_key = env('API_KEY');
 
         if (empty($api_key) || $request->api_key === $api_key) {
             return null;

@@ -12,6 +12,7 @@ class Item
 
     /**
      * Хранимое значение
+     *
      * @var
      */
     public $value;
